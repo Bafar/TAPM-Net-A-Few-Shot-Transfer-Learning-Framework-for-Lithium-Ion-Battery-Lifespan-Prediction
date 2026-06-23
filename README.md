@@ -50,4 +50,3 @@ python main.py --model_path "checkpoints/tapm_net_model.pth" --csv_path "data/YO
 ```bash
 python main.py --model_path "checkpoints/tapm_net_model.pth" --csv_path "data/YOUR_BATTERY.csv" --run_finetune
 ```
-```
