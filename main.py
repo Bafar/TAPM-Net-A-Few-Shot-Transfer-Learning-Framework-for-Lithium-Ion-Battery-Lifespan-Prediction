@@ -23,12 +23,12 @@ def main():
         plot_raw_battery_diagnostic_report(args.csv_path)
 
     # 3. 加载基础预训练权重及归一化器
-    model, scaler, hist_w, pos_cols, neg_cols, static_cols = load_model_and_scaler(args.model_path, device)
+    model, scaler, hist_w, pos_cols, neg_cols, static_cols1 = load_model_and_scaler(args.model_path, device)
 
     # 4. 执行预测 (若不进行微调，直接前向外推推演)
     if not args.run_finetune:
         predict_new_battery_lifespan(
-            args.csv_path, model, scaler, hist_w, pos_cols, neg_cols, static_cols
+            args.csv_path, model, scaler, hist_w, pos_cols, neg_cols, static_cols1
         )
     else:
         # 执行少样本在线迁移学习微调
@@ -41,7 +41,7 @@ def main():
             target_col = 'SOH'
             pos_exogenous_cols = pos_cols
             neg_exogenous_cols = neg_cols
-            static_cols = static_cols
+            static_cols = static_cols1
             pos_features_num = len(pos_cols)
             neg_features_num = len(neg_cols)
             static_features = len(static_cols)
@@ -60,7 +60,7 @@ def main():
 
         # 基于微调后的模型生成校正后的推演曲线
         predict_new_battery_lifespan(
-            args.csv_path, fine_tuned_model, scaler, hist_w, pos_cols, neg_cols, static_cols
+            args.csv_path, fine_tuned_model, scaler, hist_w, pos_cols, neg_cols, static_cols1
         )
 
 if __name__ == '__main__':
