@@ -2,11 +2,14 @@
 
 这是一个面向锂离子电池（Lithium-ion Battery）健康状态（SOH）预测与终期寿命（EOL）多步外推推断的 PyTorch 项目。承接上一个项目，本项目仅仅实现预测模型从电池源域迁移到未知的目标域。
 如下是未使用迁移方法在一个未知的电池上进行推演电池寿命退化的结果，尽管预测的退化路径与真实退化路径很相似，但仍有提升空间
-<img width="1187" height="587" alt="image" src="https://github.com/user-attachments/assets/70dc2cce-c3b8-4904-b145-4664f8c4e279" />
+<img width="3000" height="1500" alt="CY45-05_1-#3_prediction_origin" src="https://github.com/user-attachments/assets/3dda2583-c189-44d3-871b-ece8b33618ae" />
+
 如下是使用了我们提出的迁移方法，进行推演的电池寿命退化的结果，可以看到预测的准确率进一步提升，更接近真实寿命退化路径
-<img width="1187" height="587" alt="image" src="https://github.com/user-attachments/assets/005a1bec-33b8-4cfc-9029-3ab16048c4c3" />
-在已知的电池数据上，电池的最大放电容量尚且没有达到退化标准，该程序也能完成外推，预测未来的健康状态退化轨迹，如下所示
-<img width="1188" height="587" alt="image" src="https://github.com/user-attachments/assets/120b22ad-04e0-4afb-9124-9fbe57564813" />
+<img width="3000" height="1500" alt="CY45-05_1-#3_prediction_tranfer" src="https://github.com/user-attachments/assets/aae0630f-eb38-4ef0-b6bd-ac2ce3817a96" />
+
+在拥有更大差异的模拟数据上也可以进行合理的推演
+<img width="1187" height="587" alt="image" src="https://github.com/user-attachments/assets/deeff6cc-b52b-4e21-8629-0518e8c6820c" />
+
 
 ---
 
@@ -50,11 +53,11 @@ python main.py --csv_path "data/YOUR_BATTERY.csv" --show_report
 ### 2. 纯零样本前向外推推断
 若要直接加载预训练模型（不经过任何参数调校），推演全新电池的寿命轨迹：
 ```bash
-python main.py --model_path "checkpoints/tapm_net_model.pth" --csv_path "data/YOUR_BATTERY.csv"
+python main.py --model_path "checkpoints/tapm_net_model.pth" --csv_path "data/CY45-05_1-#3.csv"
 ```
 
 ### 3. 少样本迁移学习与微调推演
 若要在新电池的前 $M$ 圈已知寿命序列上对模型执行内存迁移微调，校正后续数百圈的连续退化路径：
 ```bash
-python main.py --model_path "checkpoints/tapm_net_model.pth" --csv_path "data/YOUR_BATTERY.csv" --run_finetune
+python main.py --model_path "checkpoints/tapm_net_model.pth" --csv_path "data/CY45-05_1-#3.csv" --run_finetune
 ```
